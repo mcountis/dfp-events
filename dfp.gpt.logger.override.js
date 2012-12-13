@@ -33,11 +33,10 @@
 		addEvent("gpt-slot_rendered",/Completed rendering ad for slot (.*)/ig);
 	
 		googletag.debug_log.log = function(level,message,service,slot,reference){
-			var _arguments = Array.prototype.splice.call(arguments);
-			var e = 0;
-			for(e in events)
+			var _arguments = Array.prototype.slice.call(arguments);
+			for(var e in events)
 				if(message.search(events[e].match) > -1)
-					$(googletag).trigger(events[e].name,[level,message,service,slot,reference]);
+					$(googletag).trigger(events[e].name,_arguments);
 			return _log.apply(this,arguments);
 		};
 	
