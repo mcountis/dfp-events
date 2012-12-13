@@ -29,7 +29,7 @@
 		addEvent("gpt-slot_fetch",/Fetching ad for slot (.*)/ig);
 		addEvent("gpt-slot_receiving",/Receiving ad for slot (.*)/ig);
 		addEvent("gpt-slot_render_delay",/Delaying rendering of ad slot (.*) pending loading of the GPT implementation/ig);
-		addEvent("gpt-slot_rendering",/Rendering ad for slot (.*)/ig);
+		addEvent("gpt-slot_rendering",/^Rendering ad for slot (.*)/ig);
 		addEvent("gpt-slot_rendered",/Completed rendering ad for slot (.*)/ig);
 	
 		googletag.debug_log.log = function(level,message,service,slot,reference){
