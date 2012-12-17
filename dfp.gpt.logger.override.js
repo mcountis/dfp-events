@@ -1,4 +1,7 @@
 (function($){
+	window.googletag = window.googletag || {};
+	window.googletag.cmd = window.googletag.cmd || [];
+	
 	googletag.cmd.push(function(){
 	
 		var _log = googletag.debug_log.log;
