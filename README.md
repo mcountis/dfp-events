@@ -2,6 +2,22 @@
 
 For use with Google's Doubleclick for Publishers (DFP).  Taps into dfp's logger function and triggers events.
 
+## Methods:
+### `googletag.on()`
+```javascript
+googletag.on(events,data,callback);
+```
+* `events` - string containing a list of events to bind to.
+* `data` - (optional) data to be passed to the callback upon triggering, passed via arguments[0].data a la jQuery.
+* `callback` - function to be called upon one of the events occuring.
+
+### `googletag.off()`
+```javascript
+googletag.off(events,callback);
+```
+* `events` - string containing a list of events to remove callbacks from.
+* `callback` - (optional) specific callback function to be removed from googletag.
+
 ## Events:
 
 * gpt-google_js_loaded
@@ -23,8 +39,7 @@ For use with Google's Doubleclick for Publishers (DFP).  Taps into dfp's logger 
 * gpt-slot_rendering
 * gpt-slot_rendered
 
-## Example:
-
+## Examples:
 Notice I use jQuery to cause changes to the DOM but not to bind or unbind the callbacks to the googletag object.
 
 ### Bind callback to a DFP event
