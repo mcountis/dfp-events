@@ -1,3 +1,9 @@
+/*
+Copyright 2013 Michael Countis
+
+MIT License: http://opensource.org/licenses/MIT
+*/
+
 (function(){
 	"use strict";
 
