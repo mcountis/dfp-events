@@ -17,33 +17,34 @@ MIT License: http://opensource.org/licenses/MIT
 		
 		var 	old_log = googletag.debug_log.log,
 			events = [],
-			addEvent = function(name,match){
+			addEvent = function(name,id,match){
 				events.push({
 					"name":name,
+					"id":id,
 					"match":match
 				});
 			};
 
-		addEvent("gpt-google_js_loaded",			/Google service JS loaded/ig);
-		addEvent("gpt-gpt_fetch",				/Fetching GPT implementation/ig);
-		addEvent("gpt-gpt_fetched",				/GPT implementation fetched\./ig);
-		addEvent("gpt-page_load_complete",			/Page load complete/ig);
-		addEvent("gpt-queue_start",				/^Invoked queued function/ig);
+		addEvent("gpt-google_js_loaded",                    8, /Google service JS loaded/ig);
+		addEvent("gpt-gpt_fetch",                           46, /Fetching GPT implementation/ig);
+		addEvent("gpt-gpt_fetched",                         48, /GPT implementation fetched\./ig);
+		addEvent("gpt-page_load_complete",                  1, /Page load complete/ig);
+		addEvent("gpt-queue_start",                         31, /^Invoked queued function/ig);
 
-		addEvent("gpt-service_add_slot",			/Associated ([\w]*) service with slot ([\/\w]*)/ig);
-		addEvent("gpt-service_add_targeting",			/Setting targeting attribute ([\w]*) with value ([\w\W]*) for service ([\w]*)/ig);
-		addEvent("gpt-service_collapse_containers_enable",	/Enabling collapsing of containers when there is no ad content/ig);
-		addEvent("gpt-service_create",				/Created service: ([\w]*)/ig);
-		addEvent("gpt-service_single_request_mode_enable",	/Using single request mode to fetch ads/ig);
+		addEvent("gpt-service_add_slot",                    40, /Associated ([\w]*) service with slot ([\/\w]*)/ig);
+		addEvent("gpt-service_add_targeting",               0, /Setting targeting attribute ([\w]*) with value ([\w\W]*) for service ([\w]*)/ig);
+		addEvent("gpt-service_collapse_containers_enable",  78, /Enabling collapsing of containers when there is no ad content/ig);
+		addEvent("gpt-service_create",                      35, /Created service: ([\w]*)/ig);
+		addEvent("gpt-service_single_request_mode_enable",  63, /Using single request mode to fetch ads/ig);
 
-		addEvent("gpt-slot_create",				/Created slot: ([\/\w]*)/ig);
-		addEvent("gpt-slot_add_targeting",			/Setting targeting attribute ([\w]*) with value ([\w\W]*) for slot ([\/\w]*)/ig);
-		addEvent("gpt-slot_fill",				/Calling fillslot/ig);
-		addEvent("gpt-slot_fetch",				/Fetching ad for slot ([\/\w]*)/ig);
-		addEvent("gpt-slot_receiving",				/Receiving ad for slot ([\/\w]*)/ig);
-		addEvent("gpt-slot_render_delay",			/Delaying rendering of ad slot ([\/\w]*) pending loading of the GPT implementation/ig);
-		addEvent("gpt-slot_rendering",				/^Rendering ad for slot ([\/\w]*)/ig);
-		addEvent("gpt-slot_rendered",				/Completed rendering ad for slot ([\/\w]*)/ig);
+		addEvent("gpt-slot_create",                         2, /Created slot: ([\/\w]*)/ig);
+		addEvent("gpt-slot_add_targeting",                  17, /Setting targeting attribute ([\w]*) with value ([\w\W]*) for slot ([\/\w]*)/ig);
+		addEvent("gpt-slot_fill",                           50, /Calling fillslot/ig);
+		addEvent("gpt-slot_fetch",                          3, /Fetching ad for slot ([\/\w]*)/ig);
+		addEvent("gpt-slot_receiving",                      4, /Receiving ad for slot ([\/\w]*)/ig);
+		addEvent("gpt-slot_render_delay",                   53, /Delaying rendering of ad slot ([\/\w]*) pending loading of the GPT implementation/ig);
+		addEvent("gpt-slot_rendering",                      5, /^Rendering ad for slot ([\/\w]*)/ig);
+		addEvent("gpt-slot_rendered",                       6, /Completed rendering ad for slot ([\/\w]*)/ig);
 
 		googletag.events = googletag.events || {};
 
@@ -109,13 +110,16 @@ MIT License: http://opensource.org/licenses/MIT
 
 
 		googletag.debug_log.log = function(level,message,service,slot,reference){
+			if (!message && typeof (message.getMessageId()) !== 'number') return;
+
 			var	args = Array.prototype.slice.call(arguments),
-				e = 0;
+					e = 0;
 			for(e;e < events.length; e++)
-				if(message.search(events[e].match) > -1)
+				if(events[e].id === message.getMessageId())
 					googletag.trigger(events[e].name,args);
 			return old_log.apply(this,arguments);
 		};
+
 
 	});
 })();
