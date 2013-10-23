@@ -32,7 +32,7 @@ MIT License: http://opensource.org/licenses/MIT
 		addEvent("gpt-queue_start",                         31, /^Invoked queued function/ig);
 
 		addEvent("gpt-service_add_slot",                    40, /Associated ([\w]*) service with slot ([\/\w]*)/ig);
-		addEvent("gpt-service_add_targeting",               0, /Setting targeting attribute ([\w]*) with value ([\w\W]*) for service ([\w]*)/ig);
+		addEvent("gpt-service_add_targeting",               88, /Setting targeting attribute ([\w]*) with value ([\w\W]*) for service ([\w]*)/ig);
 		addEvent("gpt-service_collapse_containers_enable",  78, /Enabling collapsing of containers when there is no ad content/ig);
 		addEvent("gpt-service_create",                      35, /Created service: ([\w]*)/ig);
 		addEvent("gpt-service_single_request_mode_enable",  63, /Using single request mode to fetch ads/ig);
