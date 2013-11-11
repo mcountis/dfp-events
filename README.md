@@ -40,20 +40,32 @@ googletag.off(events,callback);
 * gpt-slot_rendered
 
 ## Examples:
-Notice I use jQuery to cause changes to the DOM but not to bind or unbind the callbacks to the googletag object.
+Notice I use jQuery to cause changes to the DOM but not to bind or unbind the callbacks to the googletag object. Also the method calls are inside a `googletag.cmd.push` call to ensure the api is up and running.
 
 ### Bind callback to a DFP event
 ```javascript
-googletag.on("gpt-slot_rendered",function(e,level,message,service,slot,reference){
-	var slotId = slot.getSlotId();
-	var $slot = $("#"+slotId.getDomId());
+googletag.cmd.push(function () {
 	
-	if($slot.find("iframe:not([id*=hidden])").map(function(){return this.contentWindow.document;}).find("body").children().length == 0)
-		$slot.addClass("empty");
+	// add class 'empty' to ad div if the inserted iframe document is, in fact, empty
+	googletag.on("gpt-slot_rendered",function(e,level,message,service,slot,reference){
+		var	slotId = slot.getSlotId(),
+			$slot = $("#"+slotId.getDomId());
+		
+		// DFP adds two iframes, one for calling scripts and one for displaying the ad. we want the one that is not hidden
+		if($slot.find("iframe:not([id*=hidden])")
+			.map(function () { return this.contentWindow.document; })
+			.find("body")
+			.children().length == 0
+		){
+			$slot.addClass("empty");
+		}
+	});
 });
 ```
 
 ### Remove binding
 ```javascript
-googletag.off("gpt-slot_rendered");
+googletag.cmd.push(function () {
+	googletag.off("gpt-slot_rendered");
+});
 ```
