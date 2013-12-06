@@ -110,13 +110,13 @@ MIT License: http://opensource.org/licenses/MIT
 
 
 		googletag.debug_log.log = function(level,message,service,slot,reference){
-			if (!message && typeof (message.getMessageId()) !== 'number') return;
-
-			var	args = Array.prototype.slice.call(arguments),
+			if (message && message.getMessageId && typeof (message.getMessageId()) == 'number') {
+				var	args = Array.prototype.slice.call(arguments),
 					e = 0;
-			for(e;e < events.length; e++)
-				if(events[e].id === message.getMessageId())
-					googletag.trigger(events[e].name,args);
+				for(e; e < events.length; e++)
+					if(events[e].id === message.getMessageId())
+						googletag.trigger(events[e].name,args);
+			}
 			return old_log.apply(this,arguments);
 		};
 
